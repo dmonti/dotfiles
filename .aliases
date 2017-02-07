@@ -15,8 +15,22 @@ alias dt="cd ~/Desktop"
 alias dev="cd ~/Development"
 alias ws="cd ~/Development/workspace"
 alias g="git"
+alias gps="git stash; git pull; git stash pop;"
 alias h="history"
 alias j="jobs"
+
+# CFE Commands
+alias cfe="ws; cd fisco"
+alias update-fisco-comum="cfe; cd fisco-comum; gps;"
+alias update-fisco-cfesg="cfe; cd cfesg; gps;"
+alias update-fisco-cfews="cfe; cd cfews; gps;"
+alias update-fisco-portal="cfe; cd portal; gps;"
+alias update-fisco-portal-ws="cfe; cd portal-ws; gps;"
+alias update-fisco-scripts="cfe; cd scripts; gps;"
+alias update-fisco="update-fisco-comum; update-fisco-cfesg; update-fisco-cfews; update-fisco-portal; update-fisco-portal-ws;"
+
+# CFE SICAT SA
+alias sa="ws; cd rodovias"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

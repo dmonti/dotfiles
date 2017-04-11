@@ -3,4 +3,4 @@
 source sicat.conf
 
 cd ${REPO_PATH}/componentes;
-mvn install -DskipTests;
+mvn install -T 2C -DskipTests;

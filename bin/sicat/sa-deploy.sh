@@ -2,6 +2,8 @@
 
 source sicat.conf
 
+sa-clean-jboss.sh;
+
 DEPLOY_PATH=${JBOSS_HOME}/server/sgap/deploy/sgap-sa/SGAP.war
 mkdir -p ${DEPLOY_PATH}
 

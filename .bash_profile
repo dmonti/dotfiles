@@ -1,3 +1,20 @@
+#!/bin/bash
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/dmonti/.sdkman"
+[[ -s "/Users/dmonti/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/dmonti/.sdkman/bin/sdkman-init.sh"
+
+
+export MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1";
+
+export JAVA_HOME="/Users/dmonti/.sdkman/candidates/java/current";
+export PATH="$JAVA_HOME/bin:$PATH";
+
+export SICAT_REPO="/Users/dmonti/Development/workspace/dotfiles/bin/sicat";
+export PATH="$SICAT_REPO:$PATH";
+
+export CFE_REPO="/Users/dmonti/Development/workspace/dotfiles/bin/cfe";
+export PATH="$CFE_REPO:$PATH";
+
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH";
 

@@ -2,5 +2,5 @@
 
 source cfe.conf;
 
-cd ${REPO_PATH}/portal-ws;
+cd ${REPO_PATH}/cfe;
 mvn clean -T 2C -DskipTests;

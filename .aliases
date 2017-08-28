@@ -9,23 +9,30 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Shortcuts
-alias d="cd ~/Documents/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias dev="cd ~/Development"
 alias ws="cd ~/Development/workspace"
 alias g="git"
 alias gps="git stash; git pull; git stash pop;"
 alias h="history"
-alias j="jobs"
 
-# CFE Commands
+# Java
+alias java6='export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"'
+alias java7='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"'
+alias java8='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"'
+alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse >/dev/null 2>&1 &'
+
+# CFE
+command export CFE_JBOSS_DEPLOY="~/Development/server/jboss-eap-6.3/standalone"
 alias cfe="ws; cd fisco;"
-alias cfe-jboss="cd ~/Development/server/jboss-eap-6.3/standalone/deployments"
+alias cfe-open="ws; open fisco;"
+alias cfe-jboss="open ${CFE_JBOSS_DEPLOY}"
+alias cfe-clean="rm -rf ${CFE_JBOSS_DEPLOY}/deployments ${CFE_JBOSS_DEPLOY}/tmp ${CFE_JBOSS_DEPLOY}/log ${CFE_JBOSS_DEPLOY}/data"
+alias portal-run="./activator clean run -DXms1024m -DXmx1024m"
 
-# CFE SICAT SA
+# SICAT
 alias sa="ws; cd nevada"
-alias sa-jboss="cd ~/Development/server/sicat/jboss610/app/server/sgap/deploy/sgap-sa"
+alias sa-jboss="open ~/Development/server/sicat/jboss610/app/server/sgap/deploy/sgap-sa"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

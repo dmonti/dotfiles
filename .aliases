@@ -11,28 +11,45 @@ alias -- -="cd -"
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
+alias dev="cd ~/Development"
 alias ws="cd ~/Development/workspace"
 alias g="git"
 alias gps="git stash; git pull; git stash pop;"
-alias h="history"
 
 # Java
 alias java6='export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"'
 alias java7='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"'
-alias java8='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home"'
-alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse >/dev/null 2>&1 &'
+alias java8='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"'
+alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse > /dev/null 2>&1 &'
+alias jconsole='nohup jconsole > /dev/null 2>&1 &'
+alias jmeter='nohup jmeter > /dev/null 2>&1 &'
+
+# Maven
+alias mcl='mvn clean -T 1C'
+alias mco='mvn compile -T 2'
+alias mcc='mvn clean compile -T 2'
+alias me='mvn eclipse:clean eclipse:eclipse -T 2'
+alias mi='mvn install -DskipTests=true'
+
+# Gradle
+alias gcc="gradle clean build cleanEclipse eclipse"
+
+# Compsis
+alias dev="cd ~/Development"
+alias wsc="cd ~/Development/compsis/workspace"
+alias wsr="cd ~/Development/compsis/rodovias/workspace"
+alias wsf="cd ~/Development/compsis/fisco/workspace"
 
 # CFE
-command export CFE_JBOSS_DEPLOY="~/Development/server/jboss-eap-6.3/standalone"
 alias cfe="ws; cd fisco;"
 alias cfe-open="ws; open fisco;"
 alias cfe-jboss="open ${CFE_JBOSS_DEPLOY}"
 alias cfe-clean="rm -rf ${CFE_JBOSS_DEPLOY}/deployments ${CFE_JBOSS_DEPLOY}/tmp ${CFE_JBOSS_DEPLOY}/log ${CFE_JBOSS_DEPLOY}/data"
-alias portal-run="./activator clean run -DXms1024m -DXmx1024m"
+alias portal-run="./activator clean run -DXms1g -DXmx1g"
+alias portal-dist="./activator dist -DXms2g -DXmx4g"
 
 # SICAT
-alias sa="ws; cd nevada"
-alias sa-jboss="open ~/Development/server/sicat/jboss610/app/server/sgap/deploy/sgap-sa"
+alias sa-jboss="open ~/Development/compsis/rodovias/sa/wildfly-11.0.0.Final/standalone/deployments"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -42,6 +59,9 @@ else # macOS `ls`
 	colorflag="-G"
 	export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
+
+# Reload bash
+alias reload="exec $SHELL -l"
 
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
@@ -67,14 +87,12 @@ alias sudo='sudo '
 # Get week number
 alias week='date +%V'
 
-# Stopwatch
-alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
-
 # Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
 alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup; npm install npm -g; npm update -g;'
 
 # Google Chrome
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias canary='/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -89,10 +107,6 @@ alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
 alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
-
-# View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"
@@ -140,10 +154,6 @@ alias plistbuddy="/usr/libexec/PlistBuddy"
 # Airport CLI alias
 alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 
-# Ring the terminal bell, and put a badge on Terminal.app’s Dock icon
-# (useful when executing time-consuming commands)
-alias badge="tput bel"
-
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
@@ -151,7 +161,7 @@ alias map="xargs -n1"
 
 # One of @janmoesen’s ProTip™s
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "$method"="lwp-request -m '$method'"
+	alias "${method}"="lwp-request -m '${method}'"
 done
 
 # Make Grunt print stack traces by default
@@ -169,7 +179,7 @@ alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v exten
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="exec $SHELL -l"
+alias reload="exec ${SHELL} -l"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'

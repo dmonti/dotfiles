@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -8,44 +9,46 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
+
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/Development"
-alias ws="cd ~/Development/workspace"
 alias g="git"
 alias gps="git stash; git pull; git stash pop;"
 
 # Java
-alias java6='export JAVA_HOME="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"'
-alias java7='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"'
-alias java8='export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"'
+export JAVA6_HOME="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"
+export JAVA7_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"
+export JAVA8_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"
+
+alias java6='export JAVA_HOME=${JAVA6_HOME}'
+alias java7='export JAVA_HOME=${JAVA7_HOME}'
+alias java8='export JAVA_HOME=${JAVA8_HOME}'
+
 alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse > /dev/null 2>&1 &'
 alias jconsole='nohup jconsole > /dev/null 2>&1 &'
 alias jmeter='nohup jmeter > /dev/null 2>&1 &'
 
+export WORKSPACE_HOME='~/Development/workspace2'
+alias ws="cd ${WORKSPACE_HOME}"
+
 # Maven
-alias mcl='mvn clean -T 1C'
-alias mco='mvn compile -T 2'
-alias mcc='mvn clean compile -T 2'
-alias me='mvn eclipse:clean eclipse:eclipse -T 2'
+alias mcl='mvn clean -T 2C'
+alias mco='mvn compile -T 4'
+alias mcc='mvn clean compile -T 4'
 alias mi='mvn install -DskipTests=true'
 
-# Gradle
-alias gcc="gradle clean build cleanEclipse eclipse"
-
 # Compsis
-alias dev="cd ~/Development"
-alias wsc="cd ~/Development/compsis/workspace"
-alias wsr="cd ~/Development/compsis/rodovias/workspace"
-alias wsf="cd ~/Development/compsis/fisco/workspace"
+alias wsf="cd ${WORKSPACE_HOME}/fisco"
+alias wsr="cd ${WORKSPACE_HOME}/rodovias"
 
 # CFE
-alias cfe="ws; cd fisco;"
+export CFE_JBOSS_DEPLOY="~/Development/compsis/fisco/jboss-eap-7.0.9/standalone"
 alias cfe-open="ws; open fisco;"
 alias cfe-jboss="open ${CFE_JBOSS_DEPLOY}"
 alias cfe-clean="rm -rf ${CFE_JBOSS_DEPLOY}/deployments ${CFE_JBOSS_DEPLOY}/tmp ${CFE_JBOSS_DEPLOY}/log ${CFE_JBOSS_DEPLOY}/data"
-alias portal-run="./activator clean run -DXms1g -DXmx1g"
+alias portal-run="./activator clean run -DXms1g -DXmx2g"
 alias portal-dist="./activator dist -DXms2g -DXmx4g"
 
 # SICAT

@@ -18,41 +18,24 @@ alias g="git"
 alias gps="git stash; git pull; git stash pop;"
 
 # Java
-export JAVA6_HOME="/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"
-export JAVA7_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_80.jdk/Contents/Home"
-export JAVA8_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home"
+export JAVA13_HOME="/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home"
 
-alias java6='export JAVA_HOME=${JAVA6_HOME}'
-alias java7='export JAVA_HOME=${JAVA7_HOME}'
-alias java8='export JAVA_HOME=${JAVA8_HOME}'
+alias java8='sdk u java 8.0.242-zulu'
+alias graal='sdk u java 19.3.1.r11-grl'
+alias java13='export JAVA_HOME=${JAVA13_HOME}'
 
 alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse > /dev/null 2>&1 &'
 alias jconsole='nohup jconsole > /dev/null 2>&1 &'
-alias jmeter='nohup jmeter > /dev/null 2>&1 &'
 
 export WORKSPACE_HOME='~/Development/workspace2'
 alias ws="cd ${WORKSPACE_HOME}"
+alias wsf="cd ${WORKSPACE_HOME}/justto"
 
 # Maven
-alias mcl='mvn clean -T 2C'
-alias mco='mvn compile -T 4'
-alias mcc='mvn clean compile -T 4'
+alias mcl='mvn clean -T 4'
+alias mco='mvn compile -T 4 -DskipTests=true'
+alias mcc='mvn clean compile -T 4 -DskipTests=true'
 alias mi='mvn install -DskipTests=true'
-
-# Compsis
-alias wsf="cd ${WORKSPACE_HOME}/fisco"
-alias wsr="cd ${WORKSPACE_HOME}/rodovias"
-
-# CFE
-export CFE_JBOSS_DEPLOY="~/Development/compsis/fisco/jboss-eap-7.0.9/standalone"
-alias cfe-open="ws; open fisco;"
-alias cfe-jboss="open ${CFE_JBOSS_DEPLOY}"
-alias cfe-clean="rm -rf ${CFE_JBOSS_DEPLOY}/deployments ${CFE_JBOSS_DEPLOY}/tmp ${CFE_JBOSS_DEPLOY}/log ${CFE_JBOSS_DEPLOY}/data"
-alias portal-run="./activator clean run -DXms1g -DXmx2g"
-alias portal-dist="./activator dist -DXms2g -DXmx4g"
-
-# SICAT
-alias sa-jboss="open ~/Development/compsis/rodovias/sa/wildfly-11.0.0.Final/standalone/deployments"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -69,8 +52,8 @@ alias reload="exec $SHELL -l"
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
 
-# List all files colorized in long format, including dot files
-alias la="ls -laF ${colorflag}"
+# List all files colorized in long format, excluding . and ..
+alias la="ls -lAF ${colorflag}"
 
 # List only directories
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
@@ -142,9 +125,9 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-# Merge PDF files
-# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
-alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+# Merge PDF files, preserving hyperlinks
+# Usage: `mergepdf input{1,2,3}.pdf`
+alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
 
 # Disable Spotlight
 alias spotoff="sudo mdutil -a -i off"
@@ -166,9 +149,6 @@ alias map="xargs -n1"
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "${method}"="lwp-request -m '${method}'"
 done
-
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"

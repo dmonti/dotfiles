@@ -9,33 +9,57 @@ alias .....="cd ../../../.."
 alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
-
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias dev="cd ~/Development"
+
+# Git
 alias g="git"
+alias gc="git checkout"
+alias gcd="git checkout develop;"
 alias gps="git stash; git pull; git stash pop;"
+alias gpd="git checkout develop; git pull origin develop;"
+alias gmd="git merge develop;"
 
 # Java
-export JAVA13_HOME="/Library/Java/JavaVirtualMachines/jdk-13.0.2.jdk/Contents/Home"
-
-alias java8='sdk u java 8.0.242-zulu'
-alias graal='sdk u java 19.3.1.r11-grl'
-alias java13='export JAVA_HOME=${JAVA13_HOME}'
-
+alias j8='sdk u java 8.0.242-zulu'
+alias j11='sdk u java 11.0.6-zulu'
 alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse > /dev/null 2>&1 &'
 alias jconsole='nohup jconsole > /dev/null 2>&1 &'
 
-export WORKSPACE_HOME='~/Development/workspace2'
-alias ws="cd ${WORKSPACE_HOME}"
-alias wsf="cd ${WORKSPACE_HOME}/justto"
-
 # Maven
-alias mcl='mvn clean -T 4'
-alias mco='mvn compile -T 4 -DskipTests=true'
-alias mcc='mvn clean compile -T 4 -DskipTests=true'
-alias mi='mvn install -DskipTests=true'
+alias mc='mvn clean -T 2C'
+alias mt='mvn test -T 4C'
+alias mct='mc; mt;'
+alias mco='mvn compile -T 4C -DskipTests=true'
+alias mcc='mc; mco;'
+alias mi='mvn install -T 4C -DskipTests=true'
+alias mf='mvn spring-javaformat:apply -T 4C'
+mt-module() { mt -pl ":$1" -am }
+mco-module() { mco -pl ":$1" -am }
+mi-module() { mi -pl ":$1" -am }
+
+# Workspace
+export WORKSPACE_HOME='~/Development/workspace'
+alias ws="cd ${WORKSPACE_HOME}"
+alias wso="cd ${WORKSPACE_HOME}/oogzy"
+alias wsj="cd ${WORKSPACE_HOME}/justto"
+
+# Docker
+export DOCKER_DATA_HOME='~/Development/docker'
+alias dk="docker"
+alias dps="dk ps -a"
+alias docker-up="${DOCKER_DATA_HOME}/up.sh"
+alias docker-down="${DOCKER_DATA_HOME}/down.sh"
+alias redis-flush="dk exec -it local_redis_1 redis-cli FLUSHALL"
+
+# Kubernets
+alias k="kubectl"
+alias kpods="k get pods"
+alias kevents="k get event --sort-by='{.lastTimestamp}'"
+alias gk-justto="gcloud container clusters get-credentials cluster-justto-app-prod-sp --zone southamerica-east1-a --project justto-ml"
+klog() { k logs -f --all-containers=true --tail=500 "deployments/$1" }
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -46,14 +70,11 @@ else # macOS `ls`
 	export LSCOLORS='BxBxhxDxfxhxhxhxhxcxcx'
 fi
 
-# Reload bash
-alias reload="exec $SHELL -l"
-
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
 
-# List all files colorized in long format, excluding . and ..
-alias la="ls -lAF ${colorflag}"
+# List all files colorized in long format, including dot files
+alias la="ls -laF ${colorflag}"
 
 # List only directories
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
@@ -125,9 +146,9 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-# Merge PDF files, preserving hyperlinks
-# Usage: `mergepdf input{1,2,3}.pdf`
-alias mergepdf='gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=_merged.pdf'
+# Merge PDF files
+# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
 
 # Disable Spotlight
 alias spotoff="sudo mdutil -a -i off"
@@ -149,6 +170,9 @@ alias map="xargs -n1"
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias "${method}"="lwp-request -m '${method}'"
 done
+
+# Make Grunt print stack traces by default
+command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 # Stuff I never really use but cannot delete either because of http://xkcd.com/530/
 alias stfu="osascript -e 'set volume output muted true'"

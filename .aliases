@@ -26,18 +26,21 @@ alias gmd="git merge develop;"
 alias j8='sdk u java 8.0.242-zulu'
 alias j11='sdk u java 11.0.6-zulu'
 alias eclipse='nohup /Applications/Eclipse.app/Contents/MacOS/eclipse > /dev/null 2>&1 &'
+alias sts='nohup /Applications/SpringToolSuite4.app/Contents/MacOS/SpringToolSuite4 > /dev/null 2>&1 &'
 alias jconsole='nohup jconsole > /dev/null 2>&1 &'
 
 # Maven
-alias mc='mvn clean -T 2C'
-alias mt='mvn test -T 4C'
-alias mct='mc; mt;'
-alias mco='mvn compile -T 4C -DskipTests=true'
-alias mcc='mc; mco;'
-alias mi='mvn install -T 4C -DskipTests=true'
-alias mf='mvn spring-javaformat:apply -T 4C'
+alias mt='mvn test -T 1C'
+alias mc='mvn clean spring-javaformat:apply -T 1C'
+alias mco='mvn compile spring-javaformat:apply -T 1C -DskipTests=true'
+alias mct='mvn clean test -T 1C'
+alias mcc='mvn clean compile -T 1C -DskipTests=true'
+alias mi='mvn install -T 1C -DskipTests=true'
+alias mf='mvn spring-javaformat:apply -T 1C'
 mt-module() { mt -pl ":$1" -am }
+mc-module() { mc -pl ":$1" -am }
 mco-module() { mco -pl ":$1" -am }
+mcc-module() { mcc -pl ":$1" -am }
 mi-module() { mi -pl ":$1" -am }
 
 # Workspace
@@ -50,16 +53,17 @@ alias wsj="cd ${WORKSPACE_HOME}/justto"
 export DOCKER_DATA_HOME='~/Development/docker'
 alias dk="docker"
 alias dps="dk ps -a"
-alias docker-up="${DOCKER_DATA_HOME}/up.sh"
-alias docker-down="${DOCKER_DATA_HOME}/down.sh"
+alias docker-up="${DOCKER_DATA_HOME}/up.sh ${DOCKER_DATA_HOME}"
+alias docker-down="${DOCKER_DATA_HOME}/down.sh ${DOCKER_DATA_HOME}"
 alias redis-flush="dk exec -it local_redis_1 redis-cli FLUSHALL"
 
 # Kubernets
 alias k="kubectl"
+alias kcontexts="k config get-contexts"
 alias kpods="k get pods"
 alias kevents="k get event --sort-by='{.lastTimestamp}'"
 alias gk-justto="gcloud container clusters get-credentials cluster-justto-app-prod-sp --zone southamerica-east1-a --project justto-ml"
-klog() { k logs -f --all-containers=true --tail=500 "deployments/$1" }
+klog() { k logs -f --all-containers=true --tail=$1 "rc/$2" }
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -99,6 +103,7 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 
 # Google Chrome
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias chrome-disable-security='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security --user-data-dir=/tmp'
 alias canary='/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 
 # IP addresses
